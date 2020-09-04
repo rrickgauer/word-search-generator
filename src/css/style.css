@@ -1,0 +1,21 @@
+#puzzle {
+  margin-top: 40px;
+}
+#puzzle td {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+#word-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+#word-list .word {
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+/*# sourceMappingURL=style.css.map */
