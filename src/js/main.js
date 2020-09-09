@@ -1,4 +1,4 @@
-var GRID_SIZE = 20;
+var GRID_SIZE = 15;
 var MAX_ITERATIONS = 1000000;
 var words = [];
 var grid = new Array(GRID_SIZE);
@@ -45,7 +45,7 @@ function addEventListeners() {
 
   $("#btn-print").on('click', printPuzzle);
 
-  $("#word-list").on('mouseover', ".word", function() {
+  $("#word-list").on('click', ".word", function() {
     highlightWord(this);
   });
 }
@@ -364,7 +364,7 @@ function displaySearchWords() {
   wordsUsed.sort(); // sort words
 
   wordsUsedClass.sort(function (a, b) {
-    return a.word < b.word;
+    return (a.word < b.word) ? -1 : 1;
   });
 
   var html = '';
@@ -393,11 +393,13 @@ function highlightWord(div) {
   var wordID = $(div).attr('data-id');
   var word = wordsUsedClass[wordID];
 
+  $(div).toggleClass('highlight');
+
   var currentPoint = word.startingPoint;
 
   for (var count = 0; count < word.word.length; count++) {
     var tableCell = getTableCell(currentPoint);
-    $(tableCell).addClass('highlight');
+    $(tableCell).toggleClass('highlight');
 
     currentPoint = shiftPoint(currentPoint, word.direction);
   }
