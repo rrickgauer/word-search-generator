@@ -821,6 +821,8 @@ function getRandomWords() {
 
   $("#words-input").val(html);
 
+  autosize.update($('#words-input')); // update textarea size to fit all the words
+
 }
 
 
