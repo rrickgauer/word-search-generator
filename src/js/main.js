@@ -161,6 +161,7 @@ function getRandomPoint() {
 
 function getRandomLetter() {
   var randomIndex = getRandomNumber(letters.length);
+  
   return letters[randomIndex];
 }
 
@@ -191,14 +192,14 @@ function buildPuzzle() {
 } 
 
 
-function insertWord(word, startingPoint, direction) {
-
+function insertWord(word, startingPoint, direction) {\
   var gridPoint = startingPoint;
 
   for (var count = 0; count < word.length; count++) {
     var letter = word[count];
     var x = gridPoint.x;
     var y = gridPoint.y;
+
     grid[x][y] = letter;
 
     // get the new point
@@ -231,7 +232,7 @@ function canInsert(word, startingPoint, direction) {
     if (gridLetter != NULL_CHAR && gridLetter != letter)
       return false;
 
-    currentPoint = shiftPoint(currentPoint, direction);
+    currentPoint = shiftPoint(currentPoint, direction); // shift the point
   }
 
   return true;
@@ -300,8 +301,10 @@ function isPointWithinGrid(point) {
 
 function fillInPuzzle() {
 
-  for (var x = 0; x < GRID_SIZE; x++) {
-    for (var y = 0; y < GRID_SIZE; y++) {
+  for (var x = 0; x < GRID_SIZE; x++) 
+  {
+    for (var y = 0; y < GRID_SIZE; y++) 
+    {
       if (grid[x][y] == NULL_CHAR)
         grid[x][y] = getRandomLetter();
     }
@@ -310,8 +313,8 @@ function fillInPuzzle() {
 
 
 function printWordsUsed() {
-
   console.log('\nWords used:');
+
   for (var count = 0; count < wordsUsed.length; count++)
     console.log(wordsUsed[count]);
 
@@ -320,6 +323,7 @@ function printWordsUsed() {
 
 function printWordsSkipped() {
   console.log('\nWords skipped:');
+
   for (var count = 0; count < wordsSkipped.length; count++)
     console.log(wordsSkipped[count]);
 }
@@ -329,34 +333,28 @@ function displayPuzzle() {
   var tableHtml = '<tbody>';
 
   for (var x = 0; x < GRID_SIZE; x++) {
-
     var rowHtml = '<tr>';
 
-    for (var y = 0; y < GRID_SIZE; y++) {
+    for (var y = 0; y < GRID_SIZE; y++) 
       rowHtml += '<td>' + grid[x][y] + '</td>';
-    }
-
+    
     rowHtml += '</tr>';
-
     tableHtml += rowHtml;
   }
 
   tableHtml += '</tbody>';
+
   $('#puzzle').html(tableHtml);
 }
 
 function displaySearchWords() {
-
-  // sort words
-  wordsUsed.sort();
-
+  wordsUsed.sort(); // sort words
 
   var html = '';
 
-  for (var count = 0; count < wordsUsed.length; count++) {
+  for (var count = 0; count < wordsUsed.length; count++) 
     html += '<div class="word">' + wordsUsed[count] + '</div>';
-  }
-
+  
   $("#word-list").html(html);
 }
 
