@@ -28,7 +28,6 @@ function Point(x, y) {
 $(document).ready(function() {
   addEventListeners();
   initGrid();
-  setTestData();
 });
 
 
