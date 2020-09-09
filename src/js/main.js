@@ -5,6 +5,8 @@ var grid = new Array(GRID_SIZE);
 var wordsUsed = [];
 var wordsSkipped = [];
 
+var wordsUsedClass = [];
+
 const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 const NULL_CHAR = 'x';
 
@@ -24,6 +26,13 @@ function Point(x, y) {
   this.y = y;
 }
 
+// class that represents the word on the board
+function Word(word, startingPoint, direction) {
+  this.word = word;
+  this.startingPoint = startingPoint;
+  this.direction = direction;
+}
+
 
 $(document).ready(function() {
   addEventListeners();
@@ -35,6 +44,10 @@ function addEventListeners() {
   $('#btn-generate-puzzle').on('click', generatePuzzle);
 
   $("#btn-print").on('click', printPuzzle);
+
+  $("#word-list").on('mouseover', ".word", function() {
+    highlightWord(this);
+  });
 }
 
 
@@ -45,8 +58,8 @@ function generatePuzzle() {
   buildPuzzle();
   fillInPuzzle();
   // printGrid();
-  printWordsUsed();
-  printWordsSkipped();
+  // printWordsUsed();
+  // printWordsSkipped();
 
   displayPuzzle();
   displaySearchWords();
@@ -101,11 +114,6 @@ function initWords() {
   words = words.sort(function (a, b) {
     return a.length < b.length;
   });
-
-
-  for (var count = 0; count < words.length; count++)
-    console.log(words[count]);
-
 }
 
 
@@ -161,7 +169,7 @@ function getRandomPoint() {
 
 function getRandomLetter() {
   var randomIndex = getRandomNumber(letters.length);
-  
+
   return letters[randomIndex];
 }
 
@@ -192,7 +200,7 @@ function buildPuzzle() {
 } 
 
 
-function insertWord(word, startingPoint, direction) {\
+function insertWord(word, startingPoint, direction) {
   var gridPoint = startingPoint;
 
   for (var count = 0; count < word.length; count++) {
@@ -205,6 +213,8 @@ function insertWord(word, startingPoint, direction) {\
     // get the new point
     gridPoint = shiftPoint(gridPoint, direction);
   }
+
+  wordsUsedClass.push(new Word(word, startingPoint, direction));
 
   // add word to list of used words
   wordsUsed.push(word);
@@ -335,9 +345,12 @@ function displayPuzzle() {
   for (var x = 0; x < GRID_SIZE; x++) {
     var rowHtml = '<tr>';
 
-    for (var y = 0; y < GRID_SIZE; y++) 
-      rowHtml += '<td>' + grid[x][y] + '</td>';
-    
+    for (var y = 0; y < GRID_SIZE; y++) {
+      rowHtml += '<td data-x="' + x + '" data-y="' + y + '">';
+      rowHtml += grid[x][y];
+      rowHtml += '</td>';
+    }
+      
     rowHtml += '</tr>';
     tableHtml += rowHtml;
   }
@@ -350,10 +363,21 @@ function displayPuzzle() {
 function displaySearchWords() {
   wordsUsed.sort(); // sort words
 
+  wordsUsedClass.sort(function (a, b) {
+    return a.word < b.word;
+  });
+
   var html = '';
 
-  for (var count = 0; count < wordsUsed.length; count++) 
-    html += '<div class="word">' + wordsUsed[count] + '</div>';
+  for (var count = 0; count < wordsUsed.length; count++) {
+
+    html += '<div class="word" data-id="' + count + '">';
+    html += wordsUsedClass[count].word;
+    html += '</div>';
+
+
+    // html += '<div class="word">' + wordsUsed[count] + '</div>';
+  }
   
   $("#word-list").html(html);
 }
@@ -361,5 +385,28 @@ function displaySearchWords() {
 
 function printPuzzle() {
   print($("#puzzle").html());
+}
+
+
+function highlightWord(div) {
+    
+  var wordID = $(div).attr('data-id');
+  var word = wordsUsedClass[wordID];
+
+  var currentPoint = word.startingPoint;
+
+  for (var count = 0; count < word.word.length; count++) {
+    var tableCell = getTableCell(currentPoint);
+    $(tableCell).addClass('highlight');
+
+    currentPoint = shiftPoint(currentPoint, word.direction);
+  }
+
+}
+
+function getTableCell(point) {
+  var tableCell = $('#puzzle tbody td[data-x="' + point.x + '"][data-y="' + point.y + '"]');
+
+  return tableCell;
 }
 
