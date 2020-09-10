@@ -37,6 +37,8 @@ function Word(word, startingPoint, direction) {
 $(document).ready(function() {
   addEventListeners();
   initGrid();
+
+  autosize($('#words-input'));  // add autosize script to textarea
 });
 
 
