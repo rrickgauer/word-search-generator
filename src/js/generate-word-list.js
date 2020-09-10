@@ -1,4 +1,4 @@
-var randomWords = [
+const MASTER_WORD_LIST = [
   "classification",
   "congratulation",
   "extraordinary",
@@ -802,32 +802,43 @@ var randomWords = [
 ];
 
 
+const MAX_NUM_WORDS = 20;           // number of words to generate
+const textarea = $('#words-input');   // textarea dom element
 
 $(document).ready(function() {
-  $("#btn-get-words").on('click', getRandomWords);
+  $("#btn-get-words").on('click', insertRandomWordsIntoTextarea);
 });
 
+// insert list of words into the textarea
+function insertRandomWordsIntoTextarea() {
+  var words = getListOfWords(MAX_NUM_WORDS);
 
-function getRandomWords() {
+  // add a new line after each word
+  var html = words.join("\n");                                    
 
-  var words = [];
+  // insert words into the text area
+  $("#words-input").val(html);                                    
 
-  for (var count = 0; count < 20; count++) {
-    words.push(randomWords[getRandomNumber(randomWords.length)]);
+  // update textarea size to fit all the words
+  autosize.update(textarea);    
+}
+
+// returns numWords size list of random words from the master list
+function getListOfWords(numWords) {
+  var words = [];   // list of generated words
+
+  // generate a list of random words from the ra
+  for (var count = 0; count < MAX_NUM_WORDS; count++) {
+    var randomIndex = getRandomNumber(MASTER_WORD_LIST.length);   // random index
+    var randomWord = MASTER_WORD_LIST[randomIndex];               // get a random word from the list
+    words.push(randomWord);                                       // add to the subset
   }
 
-
-  var html = words.join("\n");
-
-  $("#words-input").val(html);
-
-  autosize.update($('#words-input')); // update textarea size to fit all the words
-
+  return words;
 }
 
 
-
-
+// return a random number between 0 and max parameter
 function getRandomNumber(max) {
   return Math.floor((Math.random() * max));
 }
