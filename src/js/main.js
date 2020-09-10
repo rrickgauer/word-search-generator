@@ -33,15 +33,15 @@ function Word(word, startingPoint, direction) {
   this.direction = direction;
 }
 
-
+// main
 $(document).ready(function() {
   addEventListeners();
-  initGrid();
-
   autosize($('#words-input'));  // add autosize script to textarea
 });
 
-
+/////////////////////////////////////////////
+// Add event listeners to the dom elements //
+/////////////////////////////////////////////
 function addEventListeners() {
   $('#btn-generate-puzzle').on('click', generatePuzzle);
 
@@ -52,7 +52,9 @@ function addEventListeners() {
   });
 }
 
-
+/////////////////////////////////////
+// generate the word search puzzle //
+/////////////////////////////////////
 function generatePuzzle() {
   initWords();
   initGrid();
@@ -62,11 +64,14 @@ function generatePuzzle() {
   displaySearchWords();
 }
 
+///////////////////////////////////////////////////////
+// initialize the words list from the textarea input //
+///////////////////////////////////////////////////////
 function initWords() {
   var textarea = $('#words-input');
   var rawInput = $(textarea).val();
-  rawInput     = rawInput.toUpperCase();
-  words        = rawInput.split("\n");
+  rawInput     = rawInput.toUpperCase();  // convert all words to uppercase
+  words        = rawInput.split("\n");    // split the words by new line
   
   // sort the words longest to shortest
   words = words.sort(function (a, b) {
@@ -74,14 +79,18 @@ function initWords() {
   });
 }
 
-
+/////////////////////////
+// initialize the grid //
+/////////////////////////
 function initGrid() {
   for (var count = 0; count < GRID_SIZE; count++) {
     grid[count] = getNullRow();
   }
 }
 
-
+///////////////////////////////
+// return a row of all nulls //
+///////////////////////////////
 function getNullRow() {
   var row = new Array(GRID_SIZE);
 
@@ -91,15 +100,24 @@ function getNullRow() {
   return row;
 }
 
+//////////////////////////////////
+// get a random number: 0 - max //
+//////////////////////////////////
 function getRandomNumber(max) {
   return Math.floor((Math.random() * max));
 }
 
+/////////////////////////////
+// get a random direction  //
+/////////////////////////////
 function getRandomDirection() {
   var randomIndex = getRandomNumber(DIRECTIONS.length);
   return DIRECTIONS[randomIndex];
 }
 
+////////////////////////
+// get a random point //
+////////////////////////
 function getRandomPoint() {
   var x = getRandomNumber(GRID_SIZE);
   var y = getRandomNumber(GRID_SIZE);
@@ -107,20 +125,27 @@ function getRandomPoint() {
   return new Point(x, y);
 }
 
+//////////////////////////////////////////////
+// return a random letter from the alphabet //
+//////////////////////////////////////////////
 function getRandomLetter() {
   var randomIndex = getRandomNumber(letters.length);
-
   return letters[randomIndex];
 }
 
-
+////////////////////////////////
+// build the word search grid //
+////////////////////////////////
 function buildPuzzle() {
 
+  // initialize variables
+  var word, direction, startingPoint, numAttempts;
+
   for (var count = 0; count < words.length; count++) {
-    var word          = words[count];
-    var direction     = getRandomDirection();
-    var startingPoint = getRandomPoint();
-    var numAttempts   = 0;
+    word = words[count];
+    direction = getRandomDirection();
+    startingPoint = getRandomPoint();
+    numAttempts = 0;
 
     while (!canInsert(word, startingPoint, direction)) {
       
@@ -135,11 +160,14 @@ function buildPuzzle() {
       numAttempts++;
 
     }
+
     insertWord(word, startingPoint, direction);
   }
 } 
 
-
+/////////////////////////////////
+// insert a word into the grid //
+/////////////////////////////////
 function insertWord(word, startingPoint, direction) {
   var gridPoint = startingPoint;
 
@@ -161,11 +189,16 @@ function insertWord(word, startingPoint, direction) {
 }
 
 
-// word to list of skipped words
+///////////////////////////////////
+// word to list of skipped words //
+///////////////////////////////////
 function skipWord(word) {
   wordsSkipped.push(word);
 }
 
+/////////////////////////////////////////////////////
+// check if the word can be inserted into the grid //
+/////////////////////////////////////////////////////
 function canInsert(word, startingPoint, direction) {
   var currentPoint = startingPoint;
 
@@ -188,6 +221,9 @@ function canInsert(word, startingPoint, direction) {
   return true;
 }
 
+////////////////////////////////////////////////
+// shift the point in the direction passed in //
+////////////////////////////////////////////////
 function shiftPoint(point, direction) {
   var newPoint = new Point(point.x, point.y);
 
@@ -235,7 +271,9 @@ function shiftPoint(point, direction) {
   return newPoint;
 }
 
-// checks if point can fit within the grid
+/////////////////////////////////////////////
+// checks if point can fit within the grid //
+/////////////////////////////////////////////
 function isPointWithinGrid(point) {
   if (point.x >= GRID_SIZE)       // x is too big
     return false;
@@ -249,18 +287,21 @@ function isPointWithinGrid(point) {
     return true;
 }
 
+////////////////////////////////////////////////////
+// fill in the remaining grid with random letters //
+////////////////////////////////////////////////////
 function fillInPuzzle() {
-
-  for (var x = 0; x < GRID_SIZE; x++) 
-  {
-    for (var y = 0; y < GRID_SIZE; y++) 
-    {
+  for (var x = 0; x < GRID_SIZE; x++) {
+    for (var y = 0; y < GRID_SIZE; y++) {
       if (grid[x][y] == NULL_CHAR)
         grid[x][y] = getRandomLetter();
     }
   }
 }
 
+////////////////////////
+// display the puzzle //
+////////////////////////
 function displayPuzzle() {
   var tableHtml = '<tbody>';
 
@@ -282,6 +323,9 @@ function displayPuzzle() {
   $('#puzzle').html(tableHtml);
 }
 
+//////////////////////////////////////
+// display the list of search words //
+//////////////////////////////////////
 function displaySearchWords() {
   wordsUsed.sort(); // sort words
 
@@ -304,14 +348,17 @@ function displaySearchWords() {
   $("#word-list").html(html);
 }
 
-
+//////////////////////
+// print the puzzle //
+//////////////////////
 function printPuzzle() {
   print($("#puzzle").html());
 }
 
-
+///////////////////////////////////////////////////
+// highlight the word in the puzzle when clicked //
+///////////////////////////////////////////////////
 function highlightWord(div) {
-    
   var wordID = $(div).attr('data-id');
   var word = wordsUsedClass[wordID];
 
@@ -328,9 +375,11 @@ function highlightWord(div) {
 
 }
 
+////////////////////////////////////////////////////////////
+// return the table cell based on its x and y coordinated //
+////////////////////////////////////////////////////////////
 function getTableCell(point) {
   var tableCell = $('#puzzle tbody td[data-x="' + point.x + '"][data-y="' + point.y + '"]');
-
   return tableCell;
 }
 
