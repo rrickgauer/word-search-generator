@@ -54,56 +54,12 @@ function addEventListeners() {
 
 
 function generatePuzzle() {
-
   initWords();
   initGrid();
   buildPuzzle();
   fillInPuzzle();
-  // printGrid();
-  // printWordsUsed();
-  // printWordsSkipped();
-
   displayPuzzle();
   displaySearchWords();
-}
-
-function setTestData() {
-  var html = '';  
-
-  html += "by\n";
-  html += "this\n";
-  html += "we\n";
-  html += "you\n";
-  html += "do\n";
-  html += "but\n";
-  html += "from\n";
-  html += "or\n";
-  html += "which\n";
-  html += "one\n";
-  html += "would\n";
-  html += "all\n";
-  html += "will\n";
-  html += "there\n";
-  html += "say\n";
-  html += "who\n";
-  html += "make\n";
-  html += "when\n";
-  html += "can\n";
-  html += "more\n";
-  html += "if\n";
-  html += "no\n";
-  html += "man\n";
-  html += "out\n";
-  html += "other\n";
-  html += "so\n";
-  html += "what\n";
-  html += "time\n";
-  html += "up\n";
-  html += "go\n";
-  html += "about\n";
-  html += "than";
-
-  $('#words-input').val(html);
 }
 
 function initWords() {
@@ -134,24 +90,6 @@ function getNullRow() {
 
   return row;
 }
-
-
-
-function printGrid() {
-  var output = '';
-
-  for (var count = 0; count < GRID_SIZE; count++) {
-    var row = '';
-
-    for (var count2 = 0; count2 < GRID_SIZE; count2++) 
-      row += grid[count][count2] + ' ';
-    
-    output += row + '\n';
-  }
-
-  console.log(output);
-}
-
 
 function getRandomNumber(max) {
   return Math.floor((Math.random() * max));
@@ -322,24 +260,6 @@ function fillInPuzzle() {
     }
   }
 }
-
-
-function printWordsUsed() {
-  console.log('\nWords used:');
-
-  for (var count = 0; count < wordsUsed.length; count++)
-    console.log(wordsUsed[count]);
-
-}
-
-
-function printWordsSkipped() {
-  console.log('\nWords skipped:');
-
-  for (var count = 0; count < wordsSkipped.length; count++)
-    console.log(wordsSkipped[count]);
-}
-
 
 function displayPuzzle() {
   var tableHtml = '<tbody>';
