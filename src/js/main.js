@@ -1,5 +1,5 @@
-var GRID_SIZE = 15;
-var MAX_ITERATIONS = 1000000;
+var GRID_SIZE = 20;
+var MAX_ITERATIONS = 100;
 var words = [];
 var grid = new Array(GRID_SIZE);
 var wordsUsed = [];
@@ -75,8 +75,10 @@ function initWords() {
   
   // sort the words longest to shortest
   words = words.sort(function (a, b) {
-    return a.length < b.length;
+    return (a.length > b.length) ? -1 : 1;
   });
+
+
 }
 
 /////////////////////////
@@ -137,33 +139,85 @@ function getRandomLetter() {
 // build the word search grid //
 ////////////////////////////////
 function buildPuzzle() {
+  var didInsert = false;
+  var total = 0;
 
-  // initialize variables
-  var word, direction, startingPoint, numAttempts;
+  // add all words to the grid
+  while (!didInsert && total < 50) {
+    for (var count = 0; count < words.length; count++){
+      didInsert = attemptInsert(words[count]);
 
-  for (var count = 0; count < words.length; count++) {
-    word = words[count];
-    direction = getRandomDirection();
-    startingPoint = getRandomPoint();
-    numAttempts = 0;
-
-    while (!canInsert(word, startingPoint, direction)) {
-      
-      // restart the build if every point has been tried
-      if (numAttempts == MAX_ITERATIONS) {
-        skipWord(word);
+      if (!didInsert)
         break;
-      }
-
-      direction = getRandomDirection();
-      startingPoint = getRandomPoint();
-      numAttempts++;
-
     }
 
-    insertWord(word, startingPoint, direction);
+    // break from loop since all words were successful
+    if (didInsert)
+      break;
+
+    total++;
+
+    // increase the grid by 1 row and 1 column
+    GRID_SIZE++;
+    grid = new Array(GRID_SIZE);
+    wordsUsed = [];
+    wordsSkipped = [];
+    wordsUsedClass = [];
+
+    initGrid();
   }
+
 } 
+
+// Attempt to insert a word with the given grid
+function attemptInsert(word) {
+    var direction = getRandomDirection();
+    var startingPoint = getRandomPoint();
+    var directionsUsed = [];
+
+
+    while (!canInsert(word, startingPoint, direction) && directionsUsed.length < 8) {
+      // try and insert the word with the same direction 1000 times
+      for (var count = 0; count < MAX_ITERATIONS; count++) {
+
+        if (canInsert(word, startingPoint, direction)){
+          // console.log(count);
+          break;
+        }
+
+        startingPoint = getRandomPoint(); 
+      }
+
+      if (canInsert(word, startingPoint, direction))
+        break;
+
+      // add direction to list of used directions
+      directionsUsed.push(direction);
+
+      // get an unused direction
+      direction = getRandomDirection();
+      while (!directionsUsed.includes(direction)) {
+        direction = getRandomDirection();
+      }
+    }
+
+
+    if (canInsert(word, startingPoint, direction)) {
+      insertWord(word, startingPoint, direction);
+      // printWord(word, startingPoint, direction);
+
+      return true;
+    }
+
+    else
+      return false;
+
+    
+
+
+    
+
+}
 
 /////////////////////////////////
 // insert a word into the grid //
