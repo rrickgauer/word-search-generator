@@ -1,9 +1,11 @@
 # word-search-generator
 Generate a word search puzzle
 
-You can read more about my creation process by reading my [blog post](https://www.ryanrickgauer.com/blog/entries.php?entryID=31).
+## Word Lists
 
-## Examples
+I gathered some [lists of words](/word-lists) to use for input if you don't want to make your own list.
+
+## Similar Projects
 
 * https://github.com/danbarbarito/Word-Search-Generator
 * https://github.com/sbj42/word-search-generator
