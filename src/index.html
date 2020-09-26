@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   <title>Word Search</title>
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
@@ -15,16 +18,26 @@
 
   <div class="container">
 
-    <h1 class="mt-5 mb-5 text-center">Word search generator</h1>
+    <h1 class="mt-5 mb-3 text-center">Word Search Generator</h1>
+
+    <p class="text-center mb-5">
+      <a href="https://github.com/rrickgauer/word-search-generator">View the source code</a>
+      <span> | </span>
+      <span>&copy; 2020 by </span>
+      <a href="https://www.ryanrickgauer.com/resume/index.html">Ryan Rickgauer</a>
+      <span> | </span>
+      <a href="https://github.com/rrickgauer/word-search-generator/tree/master/word-lists">Get a list of words</a>
+    </p>
+
 
     <p>Enter in words</p>
     <textarea class="form-control" rows="1" id="words-input"></textarea>
 
-
-    <div class="d-flex justify-content-between p-3">
-      <button type="button" class="btn btn-secondary" id="btn-get-words">Get random words</button>
+    <div class="action-buttons mt-3">
       <button type="button" class="btn btn-primary" id="btn-generate-puzzle">Generate puzzle</button>
+      <button type="button" class="btn btn-secondary" id="btn-print">Print</button>
     </div>
+
 
     
     <!-- generated puzzle -->
@@ -34,7 +47,7 @@
     <div id="word-list"></div>
 
 
-    <button type="button" class="btn btn-secondary mt-5 mb-5" id="btn-print">Print</button>
+    
 
 
 
