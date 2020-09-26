@@ -406,6 +406,10 @@ function displaySearchWords() {
 // print the puzzle //
 //////////////////////
 function printPuzzle() {
+
+  $('#words-input').hide();
+  $('.form-label').hide();
+  $('.action-buttons').hide();
   print($("#puzzle").html());
 }
 
