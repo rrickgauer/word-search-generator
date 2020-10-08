@@ -1,3 +1,4 @@
 db-info.php
 tables/
 __pycache__/
+python-utils/*.json
