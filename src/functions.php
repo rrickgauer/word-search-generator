@@ -3,7 +3,7 @@
 
 // return a pdo database object
 function dbConnect() {
-  include('db-info.php');
+  include_once('db-info.php');
 
   try {
     // connect to database
