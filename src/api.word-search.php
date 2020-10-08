@@ -2,7 +2,6 @@
 
 include('functions.php');
 
-
 if (isset($_GET['list_id'])) {
   $listID = $_GET['list_id'];
   
