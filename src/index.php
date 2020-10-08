@@ -30,6 +30,11 @@
     </p>
 
 
+    <div class="form-group">
+      <label for="select-list">Select a list</label>
+      <select class="form-control" id="select-list"></select>
+    </div>
+
     <p class="form-label">Enter in words</p>
     <textarea class="form-control" rows="1" id="words-input"></textarea>
 
@@ -45,11 +50,6 @@
 
     <!-- list of words to search for -->
     <div id="word-list"></div>
-
-
-    
-
-
 
   </div>
 
@@ -67,7 +67,10 @@
   <script src="js/autosize.min.js"></script>
 
   <!-- personal js -->
-  <script src="js/generate-word-list.js"></script>
+
+
+
+  <script src="js/generate-words.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

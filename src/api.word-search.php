@@ -3,8 +3,8 @@
 include('functions.php');
 
 
-if (isset($_GET['id'])) {
-  $listID = $_GET['id'];
+if (isset($_GET['list_id'])) {
+  $listID = $_GET['list_id'];
   
   // build list of words
   $words = getListWords($listID);
@@ -28,18 +28,14 @@ if (isset($_GET['id'])) {
   $list['words'] = $wordList;
 
   // return the data
-  echo '<pre>';
   echo json_encode($list, JSON_PRETTY_PRINT);
-  echo '</pre>';
   
   exit;
 }
 
 else {
   $lists = getLists()->fetchAll(PDO::FETCH_ASSOC);
-  echo '<pre>';
   echo json_encode($lists, JSON_PRETTY_PRINT);
-  echo '</pre>';
   exit;
 }
 
